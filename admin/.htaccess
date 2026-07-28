@@ -1,0 +1,3 @@
+# Bloqueia listagem; PHP continua acessível
+Options -Indexes
+DirectorySlash On

@@ -1,0 +1,11 @@
+{
+  "users": [
+    {
+      "id": "fernanda",
+      "name": "Fernanda Vieira",
+      "username": "fernanda",
+      "password_hash": "$2y$12$i9Zw.Bp7xd5JbX2b1n3xvuTiMIxgIaluAkcDZ6gyECC.zckl0seSO",
+      "role": "admin"
+    }
+  ]
+}

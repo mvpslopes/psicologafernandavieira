@@ -2,3 +2,13 @@
 Thumbs.db
 desktop.ini
 *.log
+
+# Credenciais e chaves privadas (nunca publicar)
+graphic-ripsaw-*.json
+admin/data/service-account.json
+admin/data/cache/
+dist/admin/data/service-account.json
+dist/admin/data/cache/
+cacert.pem
+.env
+.env.*
