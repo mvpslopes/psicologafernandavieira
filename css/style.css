@@ -572,16 +572,21 @@ h1 .script-accent {
   display: flex;
   align-items: center;
   gap: 18px;
+  flex-shrink: 0;
 }
 
 .nav-toggle {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
   background: none;
   border: none;
   padding: 8px;
   z-index: 1200;
+  flex-shrink: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-toggle span {
@@ -589,6 +594,7 @@ h1 .script-accent {
   height: 2px;
   background: var(--color-sage-darker);
   transition: var(--transition);
+  display: block;
 }
 
 .nav-toggle.is-active span:nth-child(1) {
@@ -608,8 +614,34 @@ h1 .script-accent {
 }
 
 @media (max-width: 1080px) {
+  .site-header .container {
+    gap: 12px;
+  }
+
+  .brand {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .brand img {
+    height: 58px;
+    max-width: min(210px, 62vw);
+    width: auto;
+    object-fit: contain;
+    object-position: left center;
+  }
+
+  .site-header.is-scrolled .brand img {
+    height: 50px;
+  }
+
   .nav-toggle {
     display: flex;
+  }
+
+  .header-actions {
+    margin-left: auto;
+    gap: 10px;
   }
 
   .main-nav {
@@ -625,12 +657,17 @@ h1 .script-accent {
     gap: 28px;
     padding: 40px;
     transform: translateX(100%);
-    transition: transform var(--transition);
+    transition: transform var(--transition), visibility var(--transition);
     box-shadow: -12px 0 40px -20px rgba(74, 66, 56, 0.4);
+    z-index: 1100;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .main-nav.is-open {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .main-nav a {
@@ -640,6 +677,18 @@ h1 .script-accent {
   .header-actions .btn-primary,
   .header-actions .btn-outline {
     display: none;
+  }
+
+  /* Mantém o hambúrguer/X sempre acessível acima do painel */
+  .nav-toggle {
+    position: relative;
+    z-index: 1201;
+  }
+
+  .nav-toggle.is-active {
+    position: fixed;
+    top: 14px;
+    right: 16px;
   }
 }
 
@@ -1036,7 +1085,12 @@ h1 .script-accent {
 .testimonial-card p {
   font-style: italic;
   color: var(--color-text-soft);
-  font-size: 0.98rem;
+  font-size: 0.95rem;
+  line-height: 1.65;
+}
+
+.testimonial-card p + p {
+  margin-top: 12px;
 }
 
 .testimonial-author {
@@ -1799,6 +1853,51 @@ body::after {
   .form-row {
     grid-template-columns: 1fr;
   }
+}
+
+.contact-map-section .section-header {
+  max-width: 640px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.contact-map-section .section-header p {
+  color: var(--color-text-soft);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.contact-map {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  background: var(--color-cream-alt);
+  border: 1px solid rgba(148, 162, 129, 0.18);
+}
+
+.contact-map iframe {
+  display: block;
+  width: 100%;
+  height: min(420px, 62vw);
+  min-height: 280px;
+  border: 0;
+  filter: saturate(0.92) contrast(0.98);
+}
+
+.contact-map-link {
+  text-align: center;
+  margin: 18px 0 0;
+}
+
+.contact-map-link a {
+  font-family: var(--font-heading);
+  color: var(--color-sage-darker);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.contact-map-link a:hover {
+  color: var(--color-sage);
 }
 
 /* ---------- Selo / código de ética ---------- */
