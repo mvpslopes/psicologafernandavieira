@@ -5,6 +5,51 @@
 document.addEventListener("DOMContentLoaded", function () {
   var WHATSAPP_NUMBER = "5531988671693"; // WhatsApp com DDI 55 + DDD 31
 
+  /* ---------- Splash screen ---------- */
+  var splash = document.querySelector(".splash-screen");
+  if (splash) {
+    var alreadySeen = false;
+    try {
+      alreadySeen = sessionStorage.getItem("fv-splash-seen") === "1";
+    } catch (e) {}
+
+    if (alreadySeen) {
+      splash.remove();
+      document.body.classList.remove("splash-lock");
+    } else {
+      document.body.classList.add("splash-lock");
+      var splashHidden = false;
+      var splashStarted = Date.now();
+
+      var hideSplash = function () {
+        if (splashHidden) return;
+        splashHidden = true;
+        splash.classList.add("is-done");
+        document.body.classList.remove("splash-lock");
+        try {
+          sessionStorage.setItem("fv-splash-seen", "1");
+        } catch (e) {}
+        setTimeout(function () {
+          if (splash && splash.parentNode) splash.remove();
+        }, 750);
+      };
+
+      var scheduleHide = function () {
+        var elapsed = Date.now() - splashStarted;
+        var wait = Math.max(400, 2000 - elapsed);
+        setTimeout(hideSplash, wait);
+      };
+
+      if (document.readyState === "complete") {
+        scheduleHide();
+      } else {
+        window.addEventListener("load", scheduleHide, { once: true });
+      }
+      // Fallback de segurança
+      setTimeout(hideSplash, 4000);
+    }
+  }
+
   /* ---------- Ano dinâmico no rodapé ---------- */
   document.querySelectorAll("[data-current-year]").forEach(function (el) {
     el.textContent = new Date().getFullYear();

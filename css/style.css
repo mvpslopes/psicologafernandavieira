@@ -56,6 +56,128 @@ body {
   overflow-x: hidden;
 }
 
+body.splash-lock {
+  overflow: hidden;
+}
+
+html.splash-skip .splash-screen {
+  display: none !important;
+}
+
+html.splash-skip body.splash-lock {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ---------- Splash screen ---------- */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(ellipse at 30% 20%, rgba(253, 233, 225, 0.95) 0%, transparent 55%),
+    radial-gradient(ellipse at 70% 80%, rgba(234, 238, 226, 0.9) 0%, transparent 50%),
+    var(--color-cream);
+  transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.splash-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("../images/pattern.jpg");
+  background-size: 320px;
+  opacity: 0.05;
+  pointer-events: none;
+}
+
+.splash-screen.is-done {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  text-align: center;
+  padding: 24px;
+  animation: splash-in 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.splash-logo {
+  width: min(280px, 68vw);
+  height: auto;
+  filter: drop-shadow(0 12px 28px rgba(74, 66, 56, 0.12));
+}
+
+.splash-label {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-soft);
+  opacity: 0;
+  animation: splash-fade 0.8s ease 0.45s both;
+}
+
+.splash-loader {
+  width: 42px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(148, 162, 129, 0.25);
+  overflow: hidden;
+  opacity: 0;
+  animation: splash-fade 0.6s ease 0.55s both;
+}
+
+.splash-loader span {
+  display: block;
+  width: 40%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-sage);
+  animation: splash-bar 1.2s ease-in-out 0.6s infinite;
+}
+
+@keyframes splash-in {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes splash-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes splash-bar {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(280%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash-inner,
+  .splash-label,
+  .splash-loader,
+  .splash-loader span {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 img {
   max-width: 100%;
   display: block;

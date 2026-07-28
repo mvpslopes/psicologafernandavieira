@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
@@ -21,8 +21,17 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playball&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
+<script>(function(){try{if(sessionStorage.getItem("fv-splash-seen")==="1")document.documentElement.classList.add("splash-skip");}catch(e){}})();</script>
 </head>
-<body>
+<body class="splash-lock">
+<div class="splash-screen" id="splash-screen" aria-hidden="true">
+  <div class="splash-inner">
+    <img src="images/logo-footer.png" alt="Fernanda Vieira Psicologia" class="splash-logo" width="280" height="161">
+    <p class="splash-label">CRP 04/61300</p>
+    <div class="splash-loader" aria-hidden="true"><span></span></div>
+  </div>
+</div>
+
 
 <header class="site-header">
   <div class="container">
