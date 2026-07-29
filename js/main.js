@@ -238,7 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var message = contactForm.querySelector("#message").value.trim();
 
       var lines = [
-        "Olá, Fernanda! Vim pelo site e gostaria de agendar uma conversa.",
+        "Olá, Fernanda! Vim do site e gostaria de saber como funciona o processo terapêutico?",
         "",
         "Nome: " + (name || "-"),
       ];
