@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Atraso em cascata para itens irmãos em grids
     var staggerGroups = document.querySelectorAll(
-      ".impact-grid, .approach-grid, .testimonial-grid, .benefits-grid, .steps-grid, .faq-list"
+      ".impact-grid, .approach-grid, .benefits-grid, .steps-grid, .faq-list, .testimonial-carousel"
     );
     staggerGroups.forEach(function (group) {
       var items = group.querySelectorAll(".reveal");
@@ -271,4 +271,89 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
+  /* ---------- Carrossel de depoimentos ---------- */
+  var carousel = document.querySelector("[data-testimonial-carousel]");
+  if (carousel) {
+    var track = carousel.querySelector(".carousel-track");
+    var cards = Array.prototype.slice.call(carousel.querySelectorAll(".testimonial-card"));
+    var prevBtn = carousel.querySelector(".carousel-prev");
+    var nextBtn = carousel.querySelector(".carousel-next");
+    var dotsWrap = carousel.querySelector(".carousel-dots");
+    var index = 0;
+    var timer = null;
+    var touchStartX = 0;
+    var touchDeltaX = 0;
+
+    function goTo(i) {
+      index = (i + cards.length) % cards.length;
+      track.style.transform = "translateX(" + (-index * 100) + "%)";
+      cards.forEach(function (card, idx) {
+        card.classList.toggle("is-active", idx === index);
+      });
+      Array.prototype.forEach.call(dotsWrap.children, function (dot, idx) {
+        dot.classList.toggle("is-active", idx === index);
+        dot.setAttribute("aria-selected", idx === index ? "true" : "false");
+      });
+    }
+
+    function next() { goTo(index + 1); }
+    function prev() { goTo(index - 1); }
+
+    function startAutoplay() {
+      stopAutoplay();
+      timer = setInterval(next, 7000);
+    }
+
+    function stopAutoplay() {
+      if (timer) clearInterval(timer);
+      timer = null;
+    }
+
+    cards.forEach(function (_, idx) {
+      var dot = document.createElement("button");
+      dot.type = "button";
+      dot.className = "carousel-dot" + (idx === 0 ? " is-active" : "");
+      dot.setAttribute("aria-label", "Ir para depoimento " + (idx + 1));
+      dot.setAttribute("role", "tab");
+      dot.setAttribute("aria-selected", idx === 0 ? "true" : "false");
+      dot.addEventListener("click", function () {
+        goTo(idx);
+        startAutoplay();
+      });
+      dotsWrap.appendChild(dot);
+    });
+
+    if (prevBtn) prevBtn.addEventListener("click", function () { prev(); startAutoplay(); });
+    if (nextBtn) nextBtn.addEventListener("click", function () { next(); startAutoplay(); });
+
+    carousel.addEventListener("mouseenter", stopAutoplay);
+    carousel.addEventListener("mouseleave", startAutoplay);
+    carousel.addEventListener("focusin", stopAutoplay);
+    carousel.addEventListener("focusout", startAutoplay);
+
+    var viewport = carousel.querySelector(".carousel-viewport");
+    if (viewport) {
+      viewport.addEventListener("touchstart", function (e) {
+        touchStartX = e.changedTouches[0].screenX;
+        touchDeltaX = 0;
+        stopAutoplay();
+      }, { passive: true });
+
+      viewport.addEventListener("touchmove", function (e) {
+        touchDeltaX = e.changedTouches[0].screenX - touchStartX;
+      }, { passive: true });
+
+      viewport.addEventListener("touchend", function () {
+        if (Math.abs(touchDeltaX) > 50) {
+          if (touchDeltaX < 0) next();
+          else prev();
+        }
+        startAutoplay();
+      });
+    }
+
+    goTo(0);
+    startAutoplay();
+  }
+
 });
